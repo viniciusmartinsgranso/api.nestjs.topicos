@@ -2,12 +2,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+} from 'typeorm';
+import { FoodEntity } from '../../foods/entities/food.entity';
 
-@Entity('category')
-export class CategoryEntity {
+@Entity('food_type')
+export class FoodTypeEntity {
   @PrimaryGeneratedColumn()
   public id: number;
 
@@ -22,4 +24,7 @@ export class CategoryEntity {
 
   @Column({ nullable: false, length: 128, unique: true })
   public name: string;
+
+  @OneToMany(() => FoodEntity, (food) => food.foodType)
+  foods: FoodEntity[];
 }

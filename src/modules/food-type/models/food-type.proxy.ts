@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CategoryEntity } from "../entities/category.entity";
+import { FoodTypeEntity } from "../entities/food-type.entity";
 
-export class CategoryProxy {
-  constructor(entity: CategoryEntity) {
+export class FoodTypeProxy {
+  constructor(entity: FoodTypeEntity) {
     this.id = entity.id;
     this.createdAt = entity.createdAt;
     this.updatedAt = entity.updatedAt;

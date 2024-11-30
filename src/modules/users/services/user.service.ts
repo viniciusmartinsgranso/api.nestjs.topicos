@@ -58,7 +58,7 @@ export class UserService {
     return user;
   }
 
-  public async createUser(payload: CreateUserPayload): Promise<UserProxy> {
+  public async createUser(payload: CreateUserPayload): Promise<UserEntity> {
     const haveUser = await this.repository.findOneBy({
       email: payload.email,
     });

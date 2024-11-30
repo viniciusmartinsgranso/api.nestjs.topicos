@@ -1,11 +1,12 @@
 import {
   Column,
   CreateDateColumn,
-  Entity,
+  Entity, OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+  UpdateDateColumn
+} from "typeorm";
 import { RolesEnum } from '../../../common/enums/roles.enum';
+import { MealEntity } from "../../meals/entities/meal.entity";
 
 @Entity('user')
 export class  UserEntity {
@@ -32,4 +33,7 @@ export class  UserEntity {
 
   @Column({ nullable: false, type: 'simple-array' })
   public roles!: RolesEnum[];
+
+  @OneToMany(() => MealEntity, (meal) => meal.user)
+  public meals!: MealEntity[];
 }

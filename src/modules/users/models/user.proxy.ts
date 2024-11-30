@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { UserEntity } from '../entities/user.entity';
 import { GetManyDefaultResponseProxy } from '../../../common/proxies/get-many-default-response.proxy';
 import { RolesEnum } from '../../../common/enums/roles.enum';
+import { MealProxy } from "../../meals/models/meal.proxy";
 
 export class UserProxy {
   constructor(entity: UserEntity) {
@@ -37,6 +38,9 @@ export class UserProxy {
 
   @ApiProperty()
   public roles: RolesEnum[];
+
+  @ApiProperty({ description: 'List of meals associated with the user.', type: [MealProxy] })
+  public meals: MealProxy[];
 }
 
 export class GetManyDefaultResponseUserProxy extends GetManyDefaultResponseProxy {

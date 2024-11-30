@@ -51,7 +51,7 @@ export class UserController {
   @ApiOperation({ summary: 'Obtém os dados de um usuário' })
   @ApiOkResponse({ type: UserProxy })
   public async getUserById(@Param('id') id: number): Promise<UserProxy> {
-    return this.userService.getUserById(id);
+    return this.userService.getUserById(id).then(user => new UserProxy(user));
   }
 
   @ProtectTo()

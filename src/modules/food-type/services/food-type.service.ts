@@ -2,50 +2,49 @@ import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/commo
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import { UserEntity } from "../../users/entities/user.entity";
-import { CategoryEntity } from "../entities/category.entity";
-import { CreateCategoryPayload } from "../models/create-category.payload";
-import { CategoryProxy } from "../models/category.proxy";
-import { UpdateCategoryPayload } from "../models/update-category.payload";
+import { FoodTypeEntity } from "../entities/food-type.entity";
+import { CreateFoodTypePayload } from "../models/create-food-type.payload";
+import { UpdateFoodTypePayload } from "../models/update-food-type.payload";
 
 @Injectable()
-export class CategoryService {
+export class FoodTypeService {
   constructor(
-    @InjectRepository(CategoryEntity)
-    private readonly repository: Repository<CategoryEntity>,
+    @InjectRepository(FoodTypeEntity)
+    private readonly repository: Repository<FoodTypeEntity>,
   ) {}
 
-  public getRepository(): Repository<CategoryEntity> {
+  public getRepository(): Repository<FoodTypeEntity> {
     return this.repository;
   }
 
   public async create(
-    createCategoryDto: CreateCategoryPayload,
-  ): Promise<CategoryProxy> {
-    const hasCategory = await this.repository.findOneBy({
+    createCategoryDto: CreateFoodTypePayload,
+  ): Promise<FoodTypeEntity> {
+    const entity = await this.repository.findOneBy({
       name: createCategoryDto.name,
     });
 
-    if (hasCategory)
-      throw new ForbiddenException('Categoria já cadastrado.' );
+    if (entity)
+      throw new ForbiddenException('Tipo de comida já cadastrada.' );
 
     return this.repository.save(createCategoryDto);
   }
 
-  public async findAll(search: string): Promise<CategoryEntity[]> {
-    const categories = await this.repository.find({
+  public async findAll(search: string): Promise<FoodTypeEntity[]> {
+    const foods = await this.repository.find({
       order: {
         name: 'ASC',
       },
       where: search ? { name: Like('%' + search + '%') } : {},
     });
 
-    if (!categories.length)
+    if (!foods.length)
       throw new NotFoundException('Ocorreu um erro interno.');
 
-    return categories;
+    return foods;
   }
 
-  public async findOne(id: number): Promise<CategoryEntity> {
+  public async findOne(id: number): Promise<FoodTypeEntity> {
     const category = await this.repository.findOne({ where: { id } });
 
     if (!category)
@@ -57,8 +56,8 @@ export class CategoryService {
   public async update(
     requestUser: UserEntity,
     id: number,
-    payload: UpdateCategoryPayload,
-  ): Promise<CategoryEntity> {
+    payload: UpdateFoodTypePayload,
+  ): Promise<FoodTypeEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity)
@@ -69,7 +68,7 @@ export class CategoryService {
     return this.repository.save(entity);
   }
 
-  public async deactivateOne(id: number): Promise<CategoryEntity> {
+  public async deactivateOne(id: number): Promise<FoodTypeEntity> {
     const entity = await this.repository.findOne({ where: { id } });
 
     if (!entity) throw new NotFoundException();
@@ -79,7 +78,7 @@ export class CategoryService {
     return this.repository.save(entity);
   }
 
-  public async activateOne(id: number): Promise<CategoryEntity> {
+  public async activateOne(id: number): Promise<FoodTypeEntity> {
     const entity = await this.repository.findOne({ where: { id } });
 
     if (!entity) throw new NotFoundException();
@@ -89,7 +88,7 @@ export class CategoryService {
     return this.repository.save(entity);
   }
 
-  public async delete(id: number): Promise<CategoryEntity> {
+  public async delete(id: number): Promise<FoodTypeEntity> {
     const entity = await this.repository.findOneBy({ id });
 
     if (!entity) throw new NotFoundException();
@@ -97,8 +96,8 @@ export class CategoryService {
     return this.repository.remove(entity);
   }
 
-  public async findByIds(ids: number[]): Promise<CategoryEntity[]> {
-    const categoriesList: CategoryEntity[] = [];
+  public async findByIds(ids: number[]): Promise<FoodTypeEntity[]> {
+    const categoriesList: FoodTypeEntity[] = [];
 
     for (const id of ids) {
       const categories = await this.repository.findOneBy({

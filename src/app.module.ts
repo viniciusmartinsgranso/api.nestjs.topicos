@@ -6,7 +6,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { join } from 'path';
 import { DrinksModule } from './modules/drinks/drinks.module';
 import { MediaModule } from './modules/media/media.module';
-import { CategoriesModule } from './modules/categories/categories.module';
+import { FoodTypeModule } from "./modules/food-type/food-type.module";
+import { FoodsModule } from "./modules/foods/foods.module";
+import { MealsModule } from "./modules/meals/meals.module";
+import { MealDetailModule } from "./modules/meal-detail/meal-detail.module";
 
 @Module({
   imports: [
@@ -27,9 +30,12 @@ import { CategoriesModule } from './modules/categories/categories.module';
     }),
     AuthModule,
     UserModule,
-    CategoriesModule,
     DrinksModule,
     MediaModule,
+    FoodTypeModule,
+    FoodsModule,
+    MealsModule,
+    MealDetailModule
   ],
   controllers: [],
   providers: [],

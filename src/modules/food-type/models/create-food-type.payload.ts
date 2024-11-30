@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDefined, IsString, MaxLength } from 'class-validator';
 import { DefaultValidationMessages } from '../../../common/validations/default-validation-messages';
 import { GetManyDefaultResponseProxy } from '../../../common/proxies/get-many-default-response.proxy';
-import { CategoryProxy } from "./category.proxy";
+import { FoodTypeProxy } from "./food-type.proxy";
 
-export class CreateCategoryPayload {
+export class CreateFoodTypePayload {
   @ApiProperty()
   @IsDefined({ message: 'É necessário informar o nome.' })
   @IsString({ message: DefaultValidationMessages.IsString })
@@ -13,6 +13,6 @@ export class CreateCategoryPayload {
 }
 
 export class GetManyDefaultResponseCategoryProxy extends GetManyDefaultResponseProxy {
-  @ApiProperty({ type: () => CategoryProxy, isArray: true })
-  data!: CategoryProxy[];
+  @ApiProperty({ type: () => FoodTypeProxy, isArray: true })
+  data!: FoodTypeProxy[];
 }
